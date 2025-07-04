@@ -44,15 +44,20 @@ cargo fmt                      # Format code
 
 - Page-by-page PDF navigation (←/→ or p/n keys)
 - Vertical scrolling within pages (↑/↓ or j/k keys)
+- **Page jumping**: Jump to specific page number (g key)
+- **Text search**: Find and highlight text within PDF (/ key)
+- **Search navigation**: Navigate between search results (F/B keys)
 - Formatted text display with borders and headers
 - Text wrapping to fit terminal width
 - Colored UI elements (header, footer, content)
+- Search result highlighting with yellow background
 
 ### UI Layout
 
-- Header: Page counter and navigation instructions
-- Content area: Main PDF text display with scrolling
-- Footer: Quick navigation reference
+- Header: Page counter, navigation instructions, or input prompt
+- Content area: Main PDF text display with scrolling and search highlighting
+- Footer: Context-sensitive help and navigation controls
+- Status bar: Shows search results, page jump confirmations, and error messages
 
 ## Usage
 
@@ -61,9 +66,31 @@ cargo fmt                      # Format code
 ```
 
 ### Navigation Controls
+
+#### Basic Navigation
 - `←`/`→` or `p`/`n`: Previous/Next page
 - `↑`/`↓` or `j`/`k`: Scroll up/down within page
+- `Home`: Go to first page
+- `End`: Go to last page
 - `q` or `Esc`: Quit application
+
+#### Page Jumping
+- `g`: Enter page jump mode
+- Enter page number and press `Enter`
+- `Esc` to cancel page jump
+
+#### Search Features
+- `/`: Enter search mode
+- Type search term and press `Enter`
+- `F`: Go to next search result
+- `B`: Go to previous search result
+- Search terms are highlighted in yellow
+- `Esc` to cancel search input
+
+#### Input Modes
+- **Normal mode**: Standard navigation
+- **Page jump mode**: Enter page number
+- **Search mode**: Enter search query
 
 ## Notes
 
