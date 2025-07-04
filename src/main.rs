@@ -182,6 +182,13 @@ impl App {
         self.status_message.clear();
     }
 
+    fn clear_search(&mut self) {
+        self.search_query.clear();
+        self.search_results.clear();
+        self.current_search_result = 0;
+        self.status_message = "Search cleared".to_string();
+    }
+
     fn handle_input(&mut self, c: char) {
         match self.input_mode {
             InputMode::PageJump => {
@@ -322,7 +329,14 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>, app: &mut App) -> io::Result<
                 match app.input_mode {
                     InputMode::Normal => {
                         match key.code {
-                            KeyCode::Char('q') | KeyCode::Esc => app.quit(),
+                            KeyCode::Char('q') => app.quit(),
+                            KeyCode::Esc => {
+                                if !app.search_query.is_empty() {
+                                    app.clear_search();
+                                } else {
+                                    app.quit();
+                                }
+                            },
                             KeyCode::Right | KeyCode::Char('n') => app.next_page(),
                             KeyCode::Left | KeyCode::Char('p') => app.prev_page(),
                             KeyCode::Down | KeyCode::Char('j') => app.scroll_down(),
@@ -445,7 +459,11 @@ fn ui(f: &mut Frame, app: &App) {
 
     // Controls footer
     let controls = if app.input_mode == InputMode::Normal {
-        "g (goto page) | / (search) | F/B (next/prev result) | ←/→ (pages) | ↑/↓ (scroll) | Home/End | q (quit)"
+        if !app.search_query.is_empty() {
+            "g (goto page) | / (search) | F/B (next/prev result) | ←/→ (pages) | ↑/↓ (scroll) | Home/End | Esc (clear search) | q (quit)"
+        } else {
+            "g (goto page) | / (search) | ←/→ (pages) | ↑/↓ (scroll) | Home/End | q/Esc (quit)"
+        }
     } else {
         "Enter (submit) | Esc (cancel) | Backspace (delete)"
     };
